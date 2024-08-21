@@ -64,7 +64,7 @@ router.post('/sign-in' , async(req , res)=>{
             httpOnly: true ,
             maxAge: 60 * 24 * 60 * 60 * 100 , // 60 days
             secure: process.env.NODE_ENV === "production",
-            sameSite: "None",
+            sameSite: "lax", // 'none' for cross-site requests in production
         });
 
         res.status(200).json({
