@@ -12,28 +12,30 @@ dotenv.config();
 conn();
 const allowedOrigins = [
     "http://localhost:5173", // Local development
-   "https://podpulse-39t5-git-main-abhaylodhi24s-projects.vercel.app"
-  ];
-  
-  app.use(
+    "https://podpulse-39t5.vercel.app", // Production frontend
+    "https://podpulse-39t5-git-main-abhaylodhi24s-projects.vercel.app" // Staging or another branch
+];
+
+app.use(
     cors({
-      origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
-      credentials: true,
-      allowedHeaders: [
-        "Origin",
-        "X-Requested-With",
-        "Content-Type",
-        "Authorization",
-      ],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+        credentials: true,
+        allowedHeaders: [
+            "Origin",
+            "X-Requested-With",
+            "Content-Type",
+            "Authorization",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     })
-  );
+);
+
 
 app.use(express.json());
 app.use(cookieParser());
