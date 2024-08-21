@@ -10,13 +10,30 @@ import PodcastApi from './routes/podcast.js';
 const app = express();
 dotenv.config();
 conn();
-app.use(cors({
-    origin: [
-        process.env.FRONTEND_URL, 
-        'https://podpulse-39t5-git-main-abhaylodhi24s-projects.vercel.app'
-    ],
-    credentials: true,
-}));
+const allowedOrigins = [
+    "http://localhost:5173", // Local development
+   "https://podpulse-39t5-git-main-abhaylodhi24s-projects.vercel.app"
+  ];
+  
+  app.use(
+    cors({
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true,
+      allowedHeaders: [
+        "Origin",
+        "X-Requested-With",
+        "Content-Type",
+        "Authorization",
+      ],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    })
+  );
 
 app.use(express.json());
 app.use(cookieParser());
