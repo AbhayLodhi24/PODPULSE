@@ -11,9 +11,13 @@ const app = express();
 dotenv.config();
 conn();
 app.use(cors({
-    origin: [`${process.env.FRONTEND_URL}`],
+    origin: [
+        process.env.FRONTEND_URL, 
+        'https://podpulse-39t5-git-main-abhaylodhi24s-projects.vercel.app'
+    ],
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
