@@ -19,9 +19,11 @@ const allowedOrigins = [
 app.use(
     cors({
         origin: function (origin, callback) {
+            console.log("Origin: ", origin); // Log the origin
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
+                console.error("Blocked by CORS: ", origin); // Log the blocked origin
                 callback(new Error("Not allowed by CORS"));
             }
         },
@@ -35,6 +37,19 @@ app.use(
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     })
 );
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    if (req.method === "OPTIONS") {
+        return res.status(200).json({});
+    }
+    next();
+});
 
 
 app.use(express.json());
